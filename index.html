@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oindrila ❤️ Zeeshan</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      color: #333;
+      text-align: center;
+    }
+    header {
+      padding: 30px;
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #fff;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    .section {
+      padding: 30px;
+      background: #fff;
+      margin: 20px;
+      border-radius: 20px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+    }
+    #gameCanvas {
+      border: 2px solid #e60073;
+      border-radius: 10px;
+      background: #ffe6f0;
+    }
+    .gallery img {
+      width: 250px;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 20px;
+      margin: 10px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+    }
+    #countdown {
+      font-size: 1.5em;
+      color: #e60073;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Oindrila ❤️ Zeeshan
+  </header>
+
+  <div class="section">
+    <h2>Mini Game 🎮</h2>
+    <p>Catch the falling heart! 💖</p>
+    <canvas id="gameCanvas" width="300" height="400"></canvas>
+  </div>
+
+  <div class="section">
+    <h2>Our Anniversary 🎉</h2>
+    <p>Happy 3 Years Together!</p>
+    <p>4th Sept 2022 ➝ 4th Sept 2025</p>
+  </div>
+
+  <div class="section gallery">
+    <h2>Our Photo 📸</h2>
+    <img src="https://via.placeholder.com/250" alt="Our Photo">
+  </div>
+
+  <div class="section">
+    <h2>Love Note 💌</h2>
+    <p>“I’m very glad that you are with me. Tum meri zindagi ka sabse beautiful part ho, aur tum bina sab adhoora lagta hai. Mujhe hamesha aise hi saath chahiye tumhara. Tum bas meri life me khushiyon ka reason ho aur meri strength bhi. 💕”</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let heart = { x: 150, y: 0, size: 30, speed: 2 };
+    let catcher = { x: 120, y: 370, width: 60, height: 20 };
+    let caught = false;
+
+    function drawHeart(x, y, size) {
+      ctx.fillStyle = "#e60073";
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.bezierCurveTo(x, y - size / 2, x - size, y - size / 2, x - size, y);
+      ctx.bezierCurveTo(x - size, y + size / 2, x, y + size, x, y + size * 1.5);
+      ctx.bezierCurveTo(x, y + size, x + size, y + size / 2, x + size, y);
+      ctx.bezierCurveTo(x + size, y - size / 2, x, y - size / 2, x, y);
+      ctx.fill();
+    }
+
+    function drawCatcher() {
+      ctx.fillStyle = "#333";
+      ctx.fillRect(catcher.x, catcher.y, catcher.width, catcher.height);
+    }
+
+    function updateGame() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawHeart(heart.x, heart.y, heart.size);
+      drawCatcher();
+      if (!caught) heart.y += heart.speed;
+      if (
+        heart.y + heart.size > catcher.y &&
+        heart.x > catcher.x &&
+        heart.x < catcher.x + catcher.width
+      ) {
+        caught = true;
+        ctx.fillStyle = "green";
+        ctx.font = "20px Arial";
+        ctx.fillText("You caught my heart! 💖", 50, 200);
+      }
+      requestAnimationFrame(updateGame);
+    }
+
+    document.addEventListener("mousemove", function (e) {
+      let rect = canvas.getBoundingClientRect();
+      catcher.x = e.clientX - rect.left - catcher.width / 2;
+    });
+
+    updateGame();
+  </script>
+</body>
+</html>
